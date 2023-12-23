@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <title>Sixty Cubits</title>
+    <!-- Favicon-->
+    <link rel="icon" type="image/x-icon" href="assets/img/title_icon.png" />
+    <!-- Bootstrap Icons-->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
+    <!-- Google fonts-->
+    <link href="https://fonts.googleapis.com/css?family=Merriweather+Sans:400,700" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css?family=Merriweather:400,300,300italic,400italic,700,700italic"
+        rel="stylesheet" type="text/css" />
+    <!-- SimpleLightbox plugin CSS-->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/SimpleLightbox/2.1.0/simpleLightbox.min.css" rel="stylesheet" />
+    <!--Bootstrap Icons-->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.min.css">
+    <!-- Core theme CSS (includes Bootstrap)-->
+    <link href="css/styles.css" rel="stylesheet" />
+</head>
+<body ng-app="myApp" ng-controller="dwnldCtlr" >
+    <div id="downloadData" class="container-fluid h-100" style="font-family: 'Merriweather Sans';font-size: large;">
+        <div class="row gx-4 gx-lg-5 mb-4" style="height: 150px;">
+            <div class="col-lg-3 col-sm-4">
+                <!-- <div class="downloadNavbar"></div> -->
+            </div>
+            <!-- <div class="col-lg-9 col-sm-8 text-center" style="background-color: #143d59;padding-top: 3.5rem ">
+                <h1 class="text-white"><strong>Smart Energy Solutions</strong></h1>
+            </div> -->
+        </div>
+        <div class="container px-4 px-lg-5 mt-5">
+            <div ng-hide="hideIcon" class="row gx-4 gx-lg-5">
+                <div class="pdfIcon" ng-click="downloadPDF()"><i class="bi bi-file-earmark-pdf-fill"></i>
+                </div>
+            </div>
+            <div class="row gx-4 gx-lg-5 text-center mb-4">
+                <p class="fst-italic">Generation data of {{pdfDetails.total_load}} kW {{pdfDetails.systemType}}-tie plant at {{pdfDetails.compDt}}</p>
+                <span></span>
+            </div>
+            <div class="row gx-4 gx-lg-5">
+                <div>
+                    <h4><b class="text-start float-start">1. Total volume of Solar power generation:</b>
+                    <!-- <p >Feasible Plant size as per Roof Top Area</p>             -->
+                    <p class="text-end">{{pdfDetails.total_load}} kW</p></h4>
+                </div>
+            </div>
+            <div class="row gx-4 gx-lg-5 mt-5">
+                <h4><b>2. Total Electricity Generation from Solar plant:</b></h4>
+                <div>
+                    <p class="text-start px-6">Average Global Horizontal Irradiation (GHI) in TAMILNADU State is 1957 W/sq.m</p>
+                    <p class="text-start px-6">1 kWp solar rooftop plant will generate on an average over the year 4.18 kWh of electricity per day (considering 5.5 sunshine hours)</p>            
+                    <div>
+                        <p class="text-start px-5 float-start">a. Daily Average </p>
+                        <p class="text-end"><b>{{pdfDetails.dailyAvg | number:2}} kW</b></p>
+                    </div>
+                    <div>
+                        <p class="text-start px-5 float-start">b. Monthly Average </p>
+                        <p class="text-end"><b>{{pdfDetails.dailyAvg*30 | number:2}} kW</b></p>
+                    </div>
+                    <div>
+                        <p class="text-start px-5 float-start">c. Annually </p>
+                        <p class="text-end"><b>{{pdfDetails.annually | number:2}} kW</b></p>
+                    </div>
+                    <div>
+                        <p class="text-start px-5 float-start">d. Life Time - 25 years </p>
+                        <p class="text-end"><b>{{pdfDetails.annually*25 | number:2}} kW</b></p>
+                    </div>
+                    
+                </div>
+            </div>
+            <div class="row gx-4 gx-lg-5 mt-5">
+                <h4><b>3.Financial Savings with the above Solar Power Generated (Considering Rs.8 / kWh and 5.5 Sunshine hour):</b></h4>
+                <div>
+                    <div>
+                        <p class="text-start px-5 float-start">a. Daily Average with 5.5 hours sunshine</p>
+                        <p class="text-end"><b>{{pdfDetails.dailyAvg*8 | INR}}</b></p>
+                    </div>
+                    <div>
+                        <p class="text-start px-5 float-start">b. Monthly Average </p>
+                        <p class="text-end"><b>{{pdfDetails.dailyAvg*30*8 | INR}}</b></p>
+                    </div>
+                    <div>
+                        <p class="text-start px-5 float-start">c. Annually </p>
+                        <p class="text-end"><b>{{pdfDetails.annually*8 | INR}}</b></p>
+                    </div>
+                    <div>
+                        <p class="text-start px-5 float-start">d. Life Time - 25 years </p>
+                        <p class="text-end"><b>{{pdfDetails.annually*25*8 | INR}}</b></p>
+                    </div> 
+                    <div>
+                        <p class="text-center"><b>Note: The Break-even will be achieved in 4.5 to 5 Years from the date of the production</b></p>
+                    </div>               
+                </div>
+            </div>
+            <div class="row gx-4 gx-lg-5 mt-5">
+                <div>
+                    <h4><b>4. Total requirements of Solar Plant setup:</b></h4>
+                    <div>
+                        <p class="text-start px-5 float-start">The inverter specification for the given load is: </p>                       
+                        <p class="text-end"><b>{{pdfDetails.inverter}} Watts</b></p>
+                    </div>
+                    <div>
+                        <p class="text-start px-5 float-start">The Battery specification for the given load is: </p>
+                        <p class="text-end"><b>{{pdfDetails.battery}} AH</b></p>
+                    </div>
+                    <div>
+                        <p class="text-start px-5 float-start">The Solar plant specification for the given load is: </p>
+                        <p class="text-end"><b>{{pdfDetails.solar_plant}} Watts</b></p>
+                    </div>
+                    <div>
+                        <p class="text-start px-5 float-start">Considering 400 Watts per panel, total panels needed: </p>
+                        <p class="text-end"><b>{{pdfDetails.total_solar_plant}}</b></p>
+                    </div>
+                    <div class="mt-5">
+                        <p class="text-start px-5 float-start">The Approximate cost for 1kW for On Grid: </p>
+                        <p class="text-end"><b>Rs. 65,000 to Rs. 90,000</b></p>
+                    </div>
+                    <div>
+                        <p class="text-start px-5 float-start">The Approximate cost for 1kW for Off Grid: </p>
+                        <p class="text-end"><b>Rs. 85,000 to Rs. 1,20,000</b></p>
+                    </div>
+                </div>
+            </div>
+            <div class="row gx-4 gx-lg-5 mt-5">
+                <div>
+                    <h4><b>5. Investment and Return Comparison:</b></h4>
+                    <div>
+                        <p class="text-start px-6">Comparison for On Grid System <span ng-hide="hideOnGrid">(For Reference Purpose)</span></p>
+                        <div>
+                            <p class="text-start px-5 float-start">The total Approximate Investment for {{pdfDetails.total_load}} kW:</p>
+                            <p class="text-end"><b>{{pdfDetails.total_load * 75000 | INR}}</b></p>
+                        </div>
+                        <div>
+                            <p class="text-start px-5 float-start">The total Approximate Return for {{pdfDetails.total_load}} kW in 25 years:</p>
+                            <p class="text-end"><b>{{pdfDetails.annually*25*8 | INR}}</b></p>
+                        </div>
+                        <div>
+                            <p class="text-start px-5 float-start">The total Return on Investment for {{pdfDetails.total_load}} kW: </p> 
+                            <p class="text-end"><b>{{(pdfDetails.annually*25*8)-(pdfDetails.total_load* 75000) | INR}}</b></p> 
+                        </div>
+                    </div>
+                    <div class="mt-5">
+                        <p class="text-start px-6">Comparison for Off Grid System <span ng-hide="hideOffGrid">(For Reference Purpose)</span></p>
+                        <div>
+                            <p class="text-start px-5 float-start">The total Approximate Investment for {{pdfDetails.total_load}} kW:</p>
+                            <p class="text-end"><b>{{pdfDetails.total_load* 100000 | INR}}</b></p>
+                        </div>
+                        <div>
+                            <p class="text-start px-5 float-start">The total Approximate Return for {{pdfDetails.total_load}} kW in 25 years:</p>
+                            <p class="text-end"><b>{{pdfDetails.annually*25*8 | INR}}</b></p>
+                        </div>
+                        <div>
+                            <p class="text-start px-5 float-start">The total Return on Investment for {{pdfDetails.total_load}} kW: </p>
+                            <p class="text-end"><b>{{(pdfDetails.annually*25*8)-(pdfDetails.total_load* 100000) | INR}}</b></p>
+                        </div>                        
+                    </div>
+                </div>
+            </div>
+            <div class="row gx-4 gx-lg-5 mt-5 text-center text-muted">
+                <div>
+                    <p>EMI options are also available</p>
+                </div>
+            </div>
+                <!-- <div  class="container px-4 px-lg-5">
+                    <div class="row gx-4 gx-lg-5 justify-content-center mb-5">
+                        <div class="col-lg-8 col-md-12 text-center">
+                            <table class="table table-responsive table-borderless">
+                                <thead>
+                                    <tr>
+                                        <th scope="col"></th>
+                                        <th scope="col">Unit</th>
+                                        <th scope="col">Rates (Rs)</th>
+                                        <th scope="col">Amount (Rs)</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>                            
+                                        <td class="text-start">1 Demand Load</td>
+                                        <td>2000 kW/h</td>
+                                        <td>8</td>
+                                        <td>16,000</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-start">2 Solar Generation Savings per day</td>
+                                        <td>465 kW</td>
+                                        <td>8</td>
+                                        <td>3,720</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        
+                    </div>                
+                </div> -->
+            
+        </div>
+        
+    </div>
+    <!-- Bootstrap core JS-->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- SimpleLightbox plugin JS-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/SimpleLightbox/2.1.0/simpleLightbox.min.js"></script>
+    <!-- Core theme JS-->
+    <script src="js/scripts.js"></script>
+    <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *-->
+    <!-- * *                               SB Forms JS                               * *-->
+    <!-- * * Activate your form at https://startbootstrap.com/solution/contact-forms * *-->
+    <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *-->
+    <!-- <script src="https://cdn.startbootstrap.com/sb-forms-latest.js"></script> -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.8.3/angular.min.js"></script>
+    <script src="https://unpkg.com/jspdf@latest/dist/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.min.js"></script>
+    <script src="js/homeController.js"></script>
+</body>
+</html>
