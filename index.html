@@ -17,6 +17,8 @@
         rel="stylesheet" type="text/css" />
     <!-- SimpleLightbox plugin CSS-->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/SimpleLightbox/2.1.0/simpleLightbox.min.css" rel="stylesheet" />
+
+    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/angular_material/1.1.12/angular-material.min.css">
     <!-- Core theme CSS (includes Bootstrap)-->
     <link href="css/styles.css" rel="stylesheet" />
 </head>
@@ -76,23 +78,24 @@
                                 data-sb-validations="required" ng-change="calculate()" required/>
                             </div>
                             <div class="col-lg-3 col-md-6 text-center">
-                                <label class="text-white-75 mb-4">Total work hours/day (hours):</label>
-                            </div>
-                            <div class="col-lg-3 col-md-6 text-center">
-                                <input class="form-control" id="Total hours" type="number" placeholder="hours" ng-model="details.hours"
-                                data-sb-validations="required" ng-change="calculate()" required/>
-                            </div>
-                        </div>
-                        <div class="row gx-4 gx-lg-5">
-                            <div class="col-lg-3 col-md-6 text-center">
                                 <label class="text-white-75 mb-4">Type of System:</label>
                             </div>
                             <div class="col-lg-3 col-md-6 text-center">
-                                <select class="form-select" id="System Type" type="text" placeholder="voltage" ng-model="details.systemType"
+                                <select class="form-select" id="System Type" type="text" placeholder="voltage" ng-model="details.systemType" ng-change="calculate()"
                                 data-sb-validations="required" required>
                                     <option value="On Grid">On Grid</option>
                                     <option value="Off Grid">Off Grid</option>
                                 </select>
+                            </div>
+                            
+                        </div>
+                        <div class="row gx-4 gx-lg-5">
+                            <div class="col-lg-3 col-md-6 text-center">
+                                <label class="text-white-75 mb-4">Total work hours/day (hours):</label>
+                            </div>
+                            <div class="col-lg-3 col-md-6 text-center">
+                                <input ng-disabled="details.systemType==='On Grid'" class="form-control" id="Total hours" type="number" placeholder="hours" ng-model="details.hours"
+                                ng-change="calculate()"/>
                             </div>
                             <div class="col-lg-3 col-md-6 text-center">
                                 <label class="text-white-75 mb-4">Company Name & Venue:</label>
@@ -102,23 +105,21 @@
                                 data-sb-validations="required" required/>
                             </div>                            
                         </div>
-                        <div class="row gx-4 gx-lg-5">
+                        <div class="row gx-4 gx-lg-5" ng-hide="details.systemType==='Off Grid'">
                             <div class="col-lg-3 col-md-6 text-center">
-                                <label class="text-white-75 mb-4">Voltage:</label>
+                                <label class="text-white-75 mb-4">Area available:</label>
                             </div>
                             <div class="col-lg-3 col-md-6 text-center">
-                                <input class="form-control" id="Voltage" type="text" placeholder="voltage" ng-model="details.voltage"
-                                data-sb-validations="required" readonly/>
-                            </div>
-                            <div class="col-lg-3 col-md-6 text-center">
-                                <label class="text-white-75 mb-4">Battery efficiency:</label>
-                            </div>
-                            <div class="col-lg-3 col-md-6 text-center">
-                                <input class="form-control" id="BatteryEff" type="text" placeholder="hours" ng-model="details.bat_eff"
-                                data-sb-validations="required" readonly/>
+                                <div class="input-group mb-3">
+                                    <input id="areaInput" type="number" class="form-control" placeholder="Area" aria-label="Text input with dropdown button" ng-model="details.area" ng-change="areaCalculate()" />                                                    
+                                          <md-select class="text-black" md-selected-text="selectedItem.opt" ng-model="selectedItem" style="margin:0px;background-color: white;" aria-label="dropdown with various units for area">
+                                            <md-option ng-repeat="item in areas" ng-value="item">
+                                               {{ item.label }}
+                                           </md-option>
+                                        </md-select>                      
+                                  </div>
                             </div>
                         </div>
-                    <!--<a class="btn btn-light btn-xl" href="#services">Calculate</a>-->
                 </div>
 
             </div>            
@@ -127,12 +128,12 @@
                     <p class="text-white-75 mb-4">Inverter specification</p><h3 class="text-white mt-0" ng-show="showValue"> {{details.inverter}} Watts</h3><h3 class="text-white mt-0" ng-show="!showValue">0</h3>
                 </div>
                 <div class="col-lg-4 text-center">
-                    <p class="text-white-75 mb-4">Battery specification</p><h3 class="text-white mt-0" ng-show="showValue"> {{details.battery}} AH</h3>  <h3 class="text-white mt-0" ng-show="!showValue">0</h3>
+                    <p class="text-white-75 mb-4">Battery specification</p><h3 class="text-white mt-0" ng-show="showValue"><span ng-show="!showBattery">{{details.battery}}</span><span ng-show="showBattery">{{details.battery|number:2}} AH</span><h3 class="text-white mt-0" ng-show="!showValue">0</h3>
                 </div>
             </div>
             <div class="row gx-4 gx-lg-5 justify-content-center">
                 <div class="col-lg-8 text-center">                    
-                    <p class="text-white-75 mb-4">Solar plant specification</p><h3 class="text-white mt-0" ng-show="showValue"> {{details.solar_plant}} Watts</h3><h3 class="text-white mt-0" ng-show="!showValue">0</h3>
+                    <p class="text-white-75 mb-4">Solar plant specification</p><h3 class="text-white mt-0" ng-show="showValue"> {{details.solar_plant | number:2}} Watts</h3><h3 class="text-white mt-0" ng-show="!showValue">0</h3>
                     <p class="text-white-75 mb-4"><h4 ng-show="showValue" class="text-white mt-0">Considering 400 Watts per panel, total panels needed: {{details.total_solar_plant}}</h4></p>                    
                 </div>
             </div>
@@ -144,6 +145,8 @@
         </div>
     </form>
     </section>
+
+    
 
     <!-- Footer-->
     <footer class="bg-light py-5">
@@ -157,14 +160,18 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/SimpleLightbox/2.1.0/simpleLightbox.min.js"></script>
     <!-- Core theme JS-->
     <script src="js/scripts.js"></script>
-    <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *-->
-    <!-- * *                               SB Forms JS                               * *-->
-    <!-- * * Activate your form at https://startbootstrap.com/solution/contact-forms * *-->
-    <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *-->
-    <!-- <script src="https://cdn.startbootstrap.com/sb-forms-latest.js"></script> -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.8.3/angular.min.js"></script>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.7.6/angular.min.js"></script>
     <script src="https://unpkg.com/jspdf@latest/dist/jspdf.umd.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.min.js"></script>  
+     <!-- Angular Material requires Angular.js Libraries -->
+
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.7.6/angular-animate.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.7.6/angular-aria.min.js"></script>
+
+  <!-- Angular Material Library -->
+  <script src="https://ajax.googleapis.com/ajax/libs/angular_material/1.1.12/angular-material.min.js"></script>
+  
     <script src="js/homeController.js"></script>
 </body>
 </html>

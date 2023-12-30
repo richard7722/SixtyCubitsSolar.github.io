@@ -11024,3 +11024,25 @@ header.masthead h1, header.masthead .h1 {
   color: #ad0b00;
   cursor: pointer;
 }
+
+.sup{
+  font-size: xx-small;
+}
+
+#areaInput{
+  border: 0px;
+}
+#areaInput:focus{
+  outline:none;
+  border: 0px;
+  
+}
+
+body {
+  position: initial !important;
+  top: initial !important;
+  overflow: initial !important;
+}
+html {
+  overflow: initial !important;
+}
