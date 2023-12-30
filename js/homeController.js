@@ -29,7 +29,7 @@ app.controller('myCtrl', function ($scope,$window,$filter,$timeout) {
                 $scope.showBattery = true;
             }           
             $scope.details.solar_plant = $scope.details.voltage * $scope.details.total_current;
-            $scope.details.total_solar_plant = Math.ceil($scope.details.solar_plant / 400);
+            $scope.details.total_solar_plant = Math.ceil($scope.details.solar_plant / 550);
             $scope.showValue = true;
         }
         else {
@@ -43,11 +43,8 @@ app.controller('myCtrl', function ($scope,$window,$filter,$timeout) {
         let areaSqm = $scope.details.area * areaConvertVal;
         let solarPanelArea = 2.116638; //2.063 * 1.026
         let neededPanels = Math.ceil(areaSqm/solarPanelArea);
-        $scope.details.total_load = neededPanels * 400 / 1000;
+        $scope.details.total_load = neededPanels * 550 / 1000;
         $scope.calculate();
-        console.log(neededPanels * 400 / 1000);
-
-
     }
 
     $scope.getReport = function () {
