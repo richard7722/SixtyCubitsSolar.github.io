@@ -118,7 +118,7 @@
                     <div class="mt-5">
                         <div>
                             <p class="text-start px-5 float-start" ng-hide="hideOffGrid">The Approximate cost for 1kW for On Grid: </p>
-                            <p class="text-end"  ng-hide="hideOffGrid"><b>Rs. 70,000 to Rs. 1,00,000</b></p>
+                            <p class="text-end"  ng-hide="hideOffGrid"><b>Rs. 65,000 to Rs. 1,00,000</b></p>
                         </div>
                         <div>
                             <p class="text-start px-5 float-start" ng-hide="hideOnGrid">The Approximate cost for 1kW for Off Grid: </p>
@@ -134,7 +134,7 @@
                         <p class="text-start px-6">Comparison for On Grid System</p>
                         <div>
                             <p class="text-start px-5 float-start">The total Approximate Investment for {{pdfDetails.total_load}} kW:</p>
-                            <p class="text-end"><b>{{pdfDetails.total_load * 70000 | INR}}</b></p>
+                            <p class="text-end"><b>{{pdfDetails.total_load * 65000 | INR}}</b></p>
                         </div>
                         <div>
                             <p class="text-start px-5 float-start">The total Approximate Return for {{pdfDetails.total_load}} kW in 25 years:</p>
@@ -142,7 +142,7 @@
                         </div>
                         <div>
                             <p class="text-start px-5 float-start">The total Return on Investment for {{pdfDetails.total_load}} kW: </p> 
-                            <p class="text-end"><b>{{(pdfDetails.annually*25*8)-(pdfDetails.total_load* 70000) | INR}}</b></p> 
+                            <p class="text-end"><b>{{(pdfDetails.annually*25*8)-(pdfDetails.total_load* 65000) | INR}}</b></p> 
                         </div>
                     </div>
                     <div class="mt-5" ng-hide="hideOnGrid">
